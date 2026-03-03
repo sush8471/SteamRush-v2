@@ -148,15 +148,16 @@ export default async function GameDetailPage({ params }: GameDetailPageProps) {
                     </div>
                   </div>
                   
-                  <div className="flex flex-col gap-3">
-                    <Button className="w-full bg-blue-600 font-bold hover:bg-blue-700">
-                      Buy Now
-                    </Button>
-                    <Button variant="outline" className="w-full border-zinc-700 bg-transparent hover:bg-white/5">
-                      <ShoppingCart className="mr-2 h-4 w-4" />
-                      Add to Cart
-                    </Button>
-                  </div>
+                    <GameActions 
+                      game={{
+                        id: game.id,
+                        title: game.title,
+                        price: game.price,
+                        discount_price: game.discount_price,
+                        poster_url: game.poster_url,
+                      }} 
+                    />
+
 
                   <Separator className="my-6 bg-zinc-800" />
 
