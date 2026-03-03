@@ -69,25 +69,26 @@ export default function HomePage() {
       {/* 1. HERO SECTION */}
       <HeroSection games={featuredGames.length > 0 ? featuredGames : games.slice(0, 3)} />
 
-      <main className="space-y-8 pb-20">
-        {/* 2. RECENTLY ADDED GAMES */}
-        <GameRow title="Recently Added" games={recentlyAdded} />
+        <main className="space-y-8 pb-20">
+          {/* 2. RECENTLY ADDED GAMES */}
+          <GameRow title="Recently Added" games={recentlyAdded} href="/store?sort=newest" />
 
-        {/* 6. DEALS & DISCOUNTS SECTION */}
-        <DealsSection games={dealGames} />
+          {/* 6. DEALS & DISCOUNTS SECTION */}
+          <DealsSection games={dealGames} />
 
-        {/* 3. UPCOMING GAMES */}
-        <GameRow title="Upcoming Games" games={upcomingGames} />
+          {/* 3. UPCOMING GAMES */}
+          <GameRow title="Upcoming Games" games={upcomingGames} href="/store?type=upcoming" />
 
-        {/* 7. CATEGORIES SECTION */}
-        <CategoriesSection categories={categories} />
+          {/* 7. CATEGORIES SECTION */}
+          <CategoriesSection categories={categories} />
 
-        {/* 4. ONLINE MULTIPLAYER GAMES */}
-        <GameRow title="Online Multiplayer" games={multiplayerGames} />
+          {/* 4. ONLINE MULTIPLAYER GAMES */}
+          <GameRow title="Online Multiplayer" games={multiplayerGames} href="/store?type=online" />
 
-        {/* 5. OFFLINE GAMES */}
-        <GameRow title="Offline Games" games={offlineGames} />
-      </main>
+          {/* 5. OFFLINE GAMES */}
+          <GameRow title="Offline Games" games={offlineGames} href="/store?type=offline" />
+        </main>
+
 
       {/* Footer-like Branding */}
       <footer className="border-t border-zinc-900 bg-zinc-950 py-12">
