@@ -33,7 +33,7 @@ yarn-error.log*
 # vercel
 .vercel
 
-# environment variables
+# security: ensure environment variables are never committed
 .env
 .env.local
 .env.development.local
