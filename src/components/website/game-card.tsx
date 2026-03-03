@@ -75,11 +75,12 @@ export function GameCard({ game }: GameCardProps) {
               <Button size="icon" variant="secondary" className="rounded-full">
                 <ShoppingCart className="h-5 w-5" />
               </Button>
-              <Link href={`/games/${game.id}`}>
-                <Button size="icon" variant="outline" className="rounded-full bg-white/10 backdrop-blur-md border-white/20">
-                  <Eye className="h-5 w-5" />
-                </Button>
-              </Link>
+                <Link href={`/store/${game.id}`}>
+                  <Button size="icon" variant="outline" className="rounded-full bg-white/10 backdrop-blur-md border-white/20">
+                    <Eye className="h-5 w-5" />
+                  </Button>
+                </Link>
+
             </div>
           </div>
 
