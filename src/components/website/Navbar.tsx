@@ -146,14 +146,15 @@ export default function Navbar() {
               className="relative text-slate-300 hover:text-cyan-400 hover:bg-white/5"
               asChild
             >
-              <Link href="/cart">
-                <ShoppingCart className="w-5 h-5" />
-                {cartCount > 0 && (
-                  <Badge className="absolute -top-1 -right-1 w-4 h-4 p-0 flex items-center justify-center text-[10px] bg-cyan-500 text-black border-0 rounded-full">
-                    {cartCount}
-                  </Badge>
-                )}
-              </Link>
+                <Link href="/cart">
+                  <ShoppingCart className="w-5 h-5" />
+                  {mounted && cartCount > 0 && (
+                    <Badge className="absolute -top-1 -right-1 w-4 h-4 p-0 flex items-center justify-center text-[10px] bg-cyan-500 text-black border-0 rounded-full">
+                      {cartCount}
+                    </Badge>
+                  )}
+                </Link>
+
             </Button>
 
             {/* User */}
