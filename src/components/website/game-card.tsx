@@ -105,18 +105,24 @@ export function GameCard({ game }: GameCardProps) {
               )}
             </div>
 
-            {/* Quick Actions Overlay */}
-            <div className="absolute inset-0 flex items-center justify-center gap-2 bg-black/60 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-              <Button size="icon" variant="secondary" className="rounded-full">
-                <ShoppingCart className="h-5 w-5" />
-              </Button>
-                <Link href={`/store/${game.id}`}>
-                  <Button size="icon" variant="outline" className="rounded-full bg-white/10 backdrop-blur-md border-white/20">
-                    <Eye className="h-5 w-5" />
-                  </Button>
-                </Link>
+              {/* Quick Actions Overlay */}
+              <div className="absolute inset-0 flex items-center justify-center gap-2 bg-black/60 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                <Button 
+                  size="icon" 
+                  variant={isInCart ? "default" : "secondary"} 
+                  className={cn("rounded-full", isInCart && "bg-green-600 hover:bg-green-700")}
+                  onClick={handleAddToCart}
+                >
+                  <ShoppingCart className="h-5 w-5" />
+                </Button>
+                  <Link href={`/store/${game.id}`}>
+                    <Button size="icon" variant="outline" className="rounded-full bg-white/10 backdrop-blur-md border-white/20">
+                      <Eye className="h-5 w-5" />
+                    </Button>
+                  </Link>
 
-            </div>
+              </div>
+
           </div>
 
           {/* Info */}
