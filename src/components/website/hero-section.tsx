@@ -113,10 +113,11 @@ export function HeroSection({ games }: HeroSectionProps) {
                       </span>
                     )}
                   </div>
-                  <Button size="lg" className="bg-blue-600 px-8 hover:bg-blue-700">
-                    <ShoppingCart className="mr-2 h-5 w-5" />
-                    Buy Now
-                  </Button>
+                    <Button size="lg" className="bg-cyan-600 px-8 hover:bg-cyan-700 text-white font-bold" onClick={handleBuyNow}>
+                      <ShoppingCart className="mr-2 h-5 w-5" />
+                      Buy Now
+                    </Button>
+
                   <Button size="lg" variant="outline" className="border-zinc-700 bg-white/5 backdrop-blur-md">
                     <Heart className="mr-2 h-5 w-5" />
                     Wishlist
