@@ -36,6 +36,36 @@ interface GameCardProps {
 
 export function GameCard({ game }: GameCardProps) {
   const hasDiscount = game.discount_price !== null && game.discount_price < game.price;
+  const { addToCart, items } = useCartStore();
+  const isInCart = items.some(item => item.id === game.id);
+
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    if (isInCart) {
+      toast.info("Already in cart", {
+        description: `${game.title} is already in your shopping cart.`,
+      });
+      return;
+    }
+
+    addToCart({
+      id: game.id,
+      name: game.title,
+      price: game.price,
+      discount_price: game.discount_price,
+      image_url: game.poster_url,
+    });
+    
+    toast.success("Added to cart", {
+      description: `${game.title} has been added to your shopping cart.`,
+      action: {
+        label: "View Cart",
+        onClick: () => window.location.href = "/cart",
+      },
+    });
+  };
 
   return (
     <motion.div
