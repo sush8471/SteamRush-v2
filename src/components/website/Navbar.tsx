@@ -32,9 +32,9 @@ export default function Navbar() {
   const router = useRouter();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [categoriesOpen, setCategoriesOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-  const cartCount = 3;
+  const { totalItems } = useCartStore();
+  const [mounted, setMounted] = useState(false);
+  const cartCount = totalItems();
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -46,6 +46,7 @@ export default function Navbar() {
   };
 
   useEffect(() => {
+    setMounted(true);
     const onScroll = () => setScrolled(window.scrollY > 10);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
