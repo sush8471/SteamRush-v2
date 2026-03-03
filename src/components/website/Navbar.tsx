@@ -16,6 +16,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { useCartStore } from "@/store/cartStore";
 
 const navLinks = [
   { label: "Home", href: "/" },
