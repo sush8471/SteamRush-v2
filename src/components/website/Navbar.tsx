@@ -177,13 +177,15 @@ export default function Navbar() {
 
         {/* Mobile search */}
         <div className="md:hidden pb-3">
-          <div className="relative">
+          <form onSubmit={handleSearch} className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
             <Input
               placeholder="Search games..."
               className="pl-9 bg-[#0d1117] border-slate-700 text-slate-300 placeholder:text-slate-500 focus:border-cyan-500 rounded-full text-sm h-9"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
             />
-          </div>
+          </form>
         </div>
       </div>
 
