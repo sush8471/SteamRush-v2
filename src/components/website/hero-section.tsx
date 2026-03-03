@@ -16,8 +16,11 @@ interface HeroSectionProps {
 
 export function HeroSection({ games }: HeroSectionProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const { addToCart, items } = useCartStore();
+  const router = useRouter();
 
   useEffect(() => {
+    if (!games || games.length === 0) return;
     const timer = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % games.length);
     }, 5000);
@@ -30,6 +33,24 @@ export function HeroSection({ games }: HeroSectionProps) {
   const currentGame = games[currentIndex];
 
   if (!currentGame) return null;
+
+  const isInCart = items.some(item => item.id === currentGame.id);
+
+  const handleBuyNow = () => {
+    if (!isInCart) {
+      addToCart({
+        id: currentGame.id,
+        name: currentGame.title,
+        price: currentGame.price,
+        discount_price: currentGame.discount_price,
+        image_url: currentGame.poster_url,
+      });
+      toast.success("Added to cart", {
+        description: `${currentGame.title} added to cart.`,
+      });
+    }
+    router.push("/checkout");
+  };
 
   return (
     <section className="relative h-[80vh] w-full overflow-hidden">
