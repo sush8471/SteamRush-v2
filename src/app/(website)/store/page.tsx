@@ -64,6 +64,8 @@ async function getGames(params: Awaited<StorePageProps['searchParams']>) {
     query = query.eq('is_multiplayer', true);
   } else if (params.type === 'offline') {
     query = query.eq('is_offline', true);
+  } else if (params.type === 'upcoming') {
+    query = query.eq('is_upcoming', true);
   }
 
   if (params.rating) {
