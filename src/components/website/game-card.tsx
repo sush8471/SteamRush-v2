@@ -149,9 +149,15 @@ export function GameCard({ game }: GameCardProps) {
                   </div>
                 )}
               </div>
-              <Button size="sm" variant="ghost" className="h-8 w-8 p-0 text-zinc-400 hover:text-white">
-                <ShoppingCart className="h-4 w-4" />
-              </Button>
+                <Button 
+                  size="sm" 
+                  variant="ghost" 
+                  className={cn("h-8 w-8 p-0", isInCart ? "text-green-500" : "text-zinc-400 hover:text-white")}
+                  onClick={handleAddToCart}
+                >
+                  <ShoppingCart className="h-4 w-4" />
+                </Button>
+
             </div>
           </div>
         </CardContent>
