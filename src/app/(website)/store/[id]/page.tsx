@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabase';
 import { GameCard, Game } from '@/components/website/game-card';
+import { GameActions } from '@/components/website/game-actions';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
