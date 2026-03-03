@@ -121,16 +121,19 @@ export default function Navbar() {
             )}
           </nav>
 
-          {/* Search Bar */}
-          <div className="hidden md:flex flex-1 max-w-xs mx-4">
-            <div className="relative w-full">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
-              <Input
-                placeholder="Search games..."
-                className="pl-9 bg-[#0d1117] border-slate-700 text-slate-300 placeholder:text-slate-500 focus:border-cyan-500 focus:ring-cyan-500/20 rounded-full text-sm h-9"
-              />
+            {/* Search Bar */}
+            <div className="hidden md:flex flex-1 max-w-xs mx-4">
+              <form onSubmit={handleSearch} className="relative w-full">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+                <Input
+                  placeholder="Search games..."
+                  className="pl-9 bg-[#0d1117] border-slate-700 text-slate-300 placeholder:text-slate-500 focus:border-cyan-500 focus:ring-cyan-500/20 rounded-full text-sm h-9"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+              </form>
             </div>
-          </div>
+
 
           {/* Right Icons */}
           <div className="flex items-center gap-1">
