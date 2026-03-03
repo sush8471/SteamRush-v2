@@ -9,6 +9,9 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 
+import { useCartStore } from '@/store/cartStore';
+import { toast } from 'sonner';
+
 export interface Game {
   id: string;
   title: string;
