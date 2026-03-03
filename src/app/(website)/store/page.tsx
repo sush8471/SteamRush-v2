@@ -36,7 +36,12 @@ async function getGames(params: Awaited<StorePageProps['searchParams']>) {
   const from = (currentPage - 1) * pageSize;
   const to = from + pageSize - 1;
 
-  let query = supabase.from('games').select('*, game_categories!inner(categories!inner(slug))', { count: 'exact' });
+  let selectStr = '*';
+  if (params.categories) {
+    selectStr = '*, game_categories!inner(categories!inner(slug))';
+  }
+
+  let query = supabase.from('games').select(selectStr, { count: 'exact' });
 
   // Filtering
   if (params.search) {
