@@ -313,7 +313,3 @@ export default async function GameDetailPage({ params }: GameDetailPageProps) {
     </div>
   );
 }
-
-function Separator({ className }: { className?: string }) {
-  return <div className={`h-px w-full bg-zinc-800 ${className}`} />;
-}
