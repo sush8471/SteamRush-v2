@@ -6,6 +6,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ShoppingCart, Heart, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Game } from './game-card';
+import { useCartStore } from '@/store/cartStore';
+import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
 
 interface HeroSectionProps {
   games: Game[];
