@@ -12,11 +12,16 @@ import {
   X,
   Gamepad2,
   ChevronDown,
+  LogOut,
+  Settings,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useCartStore } from "@/store/cartStore";
+import { createSupabaseBrowserClient } from "@/lib/supabase-browser";
+import type { User as SupabaseUser } from "@supabase/supabase-js";
 
 const navLinks = [
   { label: "Home", href: "/" },
@@ -31,12 +36,16 @@ const navLinks = [
 
 export default function Navbar() {
   const router = useRouter();
+  const supabase = createSupabaseBrowserClient();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [categoriesOpen, setCategoriesOpen] = useState(false);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const { totalItems } = useCartStore();
   const [mounted, setMounted] = useState(false);
+  const [authUser, setAuthUser] = useState<SupabaseUser | null>(null);
+  const [profile, setProfile] = useState<{ username: string; avatar_url: string | null } | null>(null);
   const cartCount = totalItems();
 
   const handleSearch = (e: React.FormEvent) => {
@@ -52,7 +61,27 @@ export default function Navbar() {
     setMounted(true);
     const onScroll = () => setScrolled(window.scrollY > 10);
     window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
+
+    // Auth state
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      setAuthUser(user);
+      if (user) {
+        supabase.from("profiles").select("username, avatar_url").eq("id", user.id).single()
+          .then(({ data }) => { if (data) setProfile(data); });
+      }
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setAuthUser(session?.user ?? null);
+      if (!session?.user) { setProfile(null); return; }
+      supabase.from("profiles").select("username, avatar_url").eq("id", session.user.id).single()
+        .then(({ data }) => { if (data) setProfile(data); });
+    });
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      subscription.unsubscribe();
+    };
   }, []);
 
   return (
@@ -157,14 +186,73 @@ export default function Navbar() {
               </Link>
             </Button>
 
-            {/* User */}
-            <Button
-              variant="ghost"
-              size="icon"
-              className="text-slate-300 hover:text-cyan-400 hover:bg-white/5"
-            >
-              <User className="w-5 h-5" />
-            </Button>
+              {/* User */}
+              {mounted && authUser ? (
+                <div className="relative">
+                  <button
+                    onClick={() => setUserMenuOpen(!userMenuOpen)}
+                    className="flex items-center gap-1.5 p-1 rounded-lg hover:bg-white/5 transition-colors"
+                  >
+                    <Avatar className="w-7 h-7 border border-cyan-500/30">
+                      <AvatarImage src={profile?.avatar_url ?? undefined} />
+                      <AvatarFallback className="bg-cyan-500/10 text-cyan-400 text-xs font-bold">
+                        {(profile?.username ?? authUser.email ?? "U").slice(0, 2).toUpperCase()}
+                      </AvatarFallback>
+                    </Avatar>
+                    <ChevronDown className="w-3 h-3 text-slate-400" />
+                  </button>
+                  <AnimatePresence>
+                    {userMenuOpen && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -8 }}
+                        transition={{ duration: 0.15 }}
+                        className="absolute right-0 top-full mt-2 w-48 bg-[#0d1117] border border-cyan-500/20 rounded-xl shadow-xl shadow-black/60 overflow-hidden z-50"
+                        onMouseLeave={() => setUserMenuOpen(false)}
+                      >
+                        <div className="px-4 py-3 border-b border-slate-800">
+                          <p className="text-sm font-medium text-white truncate">
+                            {profile?.username ?? "User"}
+                          </p>
+                          <p className="text-xs text-slate-400 truncate">{authUser.email}</p>
+                        </div>
+                        <Link
+                          href="/account"
+                          onClick={() => setUserMenuOpen(false)}
+                          className="flex items-center gap-2 px-4 py-2.5 text-sm text-slate-300 hover:text-cyan-400 hover:bg-cyan-500/10 transition-colors"
+                        >
+                          <Settings className="w-4 h-4" />
+                          My Account
+                        </Link>
+                        <button
+                          onClick={async () => {
+                            setUserMenuOpen(false);
+                            await supabase.auth.signOut();
+                            router.push("/");
+                            router.refresh();
+                          }}
+                          className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-slate-300 hover:text-red-400 hover:bg-red-500/10 transition-colors"
+                        >
+                          <LogOut className="w-4 h-4" />
+                          Sign Out
+                        </button>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              ) : (
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="text-slate-300 hover:text-cyan-400 hover:bg-white/5"
+                  asChild
+                >
+                  <Link href="/login">
+                    <User className="w-5 h-5" />
+                  </Link>
+                </Button>
+              )}
 
             {/* Mobile menu toggle */}
             <Button
