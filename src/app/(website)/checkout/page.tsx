@@ -18,7 +18,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
-import { createClient } from "@/lib/supabase/client";
+import { supabase } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
 
 export default function CheckoutPage() {
@@ -29,8 +29,6 @@ export default function CheckoutPage() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [orderConfirmed, setOrderConfirmed] = useState<{ id: string } | null>(null);
   const [email, setEmail] = useState("");
-
-  const supabase = createClient();
 
   useEffect(() => {
     setMounted(true);
